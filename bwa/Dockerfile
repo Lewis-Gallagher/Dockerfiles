@@ -1,4 +1,4 @@
-FROM lewis_base:v0.1 
+FROM lewis_base:v0.1
 
 
 LABEL image="bwa_docker"
@@ -10,19 +10,15 @@ ENV bwa_version v0.7.15
 
 
 RUN git clone https://github.com/lh3/bwa && \
-	cd bwa && \
-	git checkout ${bwa_version} &&  \
-	make && cp bwa /usr/bin/bwa
+        cd bwa && \
+        git checkout ${bwa_version} &&  \
+        make && cp bwa /usr/bin/bwa
 
 WORKDIR /usr/bin
 
 
-RUN wget https://github.com/fulcrumgenomics/fgbio/releases/download/${fgbio_version}/fgbio-${fgbio_version}.jar
+RUN wget https://github.com/fulcrumgenomics/fgbio/releases/download/${fgbio_version}/fgbio-${fgbio_version}.jar && \
+        mv fgbio-${fgbio_version}.jar fgbio.jar
 
 
-WORKDIR /
-
-
-
-	
-
+WORKDIR /usr/bin
