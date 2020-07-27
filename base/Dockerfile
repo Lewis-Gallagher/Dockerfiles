@@ -6,7 +6,9 @@ FROM centos:centos7
 LABEL base.image="pipelinemanager_base:v0.1"
 LABEL maintainer="lewis.gallagher@icr.ac.uk"
 
-RUN yum -y update && \
+ENV samtools_version=1.9
+
+RUN yum -yq update && \
     yum -y install \
     bzip2 \
     bzip2-devel \
@@ -24,3 +26,14 @@ RUN yum -y update && \
     wget \
     xz-devel \
     zlib-devel
+
+
+RUN wget https://github.com/samtools/samtools/releases/download/${samtools_version}/samtools-${samtools_version}.tar.bz2 -O samtools.tar.bz2 && \
+	tar xjvf samtools.tar.bz2 && \
+	cd samtools-${samtools_version} && \
+	./configure --without-curses -prefix=/usr/local/bim && \
+	make && \
+	make install && \
+	ln -s /samtools-${samtools_version}/samtools /usr/local/bin/.
+
+
