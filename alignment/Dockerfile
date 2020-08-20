@@ -1,24 +1,18 @@
-FROM transgenmdx/base:v0.2
-
+FROM transgenmdx/base:v0.3
 
 LABEL image="alignment_docker"
 LABEL "description": "This is a docker container for bwa and the fgbio suite of tools."
 
-
-ENV fgbio_version 0.6.1
-ENV bwa_version v0.7.15
-ENV picard_version 2.8.1
+ENV FGBIO_VERSION 0.6.1
+ENV BWA_VERSION 0.7.15
 
 WORKDIR /
 
 RUN git clone https://github.com/lh3/bwa && \
-        cd bwa && \
-        git checkout ${bwa_version} &&  \
-        make && cp bwa /usr/local/bin/bwa
+    cd bwa && \
+    git checkout ${BWA_VERSION} &&  \
+    make && \
+    ln -s bwa /usr/local/bin/bwa
 
-WORKDIR /usr/local/bin
-
-RUN wget https://github.com/fulcrumgenomics/fgbio/releases/download/${fgbio_version}/fgbio-${fgbio_version}.jar && \
-        mv fgbio-${fgbio_version}.jar fgbio.jar
-
-RUN wget https://github.com/broadinstitute/picard/releases/download/${picard_version}/picard.jar
+RUN wget https://github.com/fulcrumgenomics/fgbio/releases/download/${FGBIO_VERSION}/fgbio-${FGBIO_VERSION}.jar -O /usr/local/bin/fgbio.jar && \
+    wget https://github.com/broadinstitute/picard/releases/download/${PICARD_VERSION}/picard.jar -O /usr/local/bin/picard.jar
