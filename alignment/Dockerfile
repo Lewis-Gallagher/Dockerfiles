@@ -10,9 +10,8 @@ WORKDIR /
 
 RUN git clone https://github.com/lh3/bwa && \
     cd bwa && \
-    git checkout ${BWA_VERSION} &&  \
+    git checkout v${BWA_VERSION} &&  \
     make && \
-    ln -s bwa /usr/local/bin/bwa
+    ln -s /bwa/bwa /usr/local/bin/bwa
 
-RUN wget https://github.com/fulcrumgenomics/fgbio/releases/download/${FGBIO_VERSION}/fgbio-${FGBIO_VERSION}.jar -O /usr/local/bin/fgbio.jar && \
-    wget https://github.com/broadinstitute/picard/releases/download/${PICARD_VERSION}/picard.jar -O /usr/local/bin/picard.jar
+RUN wget --quiet https://github.com/fulcrumgenomics/fgbio/releases/download/${FGBIO_VERSION}/fgbio-${FGBIO_VERSION}.jar -O /usr/local/bin/fgbio.jar
