@@ -11,22 +11,22 @@ ENV PICARD_VERSION 2.8.1
 
 RUN yum -y -q update && \
      yum -y install \
-     bzip2 \
-     bzip2-devel \
-     gcc \
-     git \
-     java-1.8.0-openjdk \
-     java-1.8.0-openjdk-devel \
-     libbzip2-devel \
-     libcurl-devel \
-     make \
-     perl \
-     r-base \
-     tabix \
-     unzip \
-     wget \
-     xz-devel \
-     zlib-devel
+         bzip2 \
+         bzip2-devel \
+         gcc \
+         git \
+         java-1.8.0-openjdk \
+         java-1.8.0-openjdk-devel \
+         libbzip2-devel \
+         libcurl-devel \
+         make \
+         perl \
+         r-base \
+         tabix \
+         unzip \
+         wget \
+         xz-devel \
+         zlib-devel
 
 RUN wget --quiet https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSION}/samtools-${SAMTOOLS_VERSION}.tar.bz2 -O samtools.tar.bz2 && \
 	tar xjvf samtools.tar.bz2 && \

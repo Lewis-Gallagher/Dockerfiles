@@ -2,14 +2,21 @@ FROM transgenmdx/base:v0.3
 
 WORKDIR /
 
-ENV R_VERSION 3.3.2
+# Specify R version
+#ENV R_VERSION 3.3.2
 
-RUN curl -O https://cdn.rstudio.com/r/centos-7/pkgs/R-${R_VERSION}-1-1.x86_64.rpm
+# Install Miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+    echo "PATH=~/anaconda3/bin:$PATH" >> ~/.bashrc
 
-RUN yum -y -q update && \
-    yum -y install \
-        epel-release
 
-RUN yum install -y R-${R_VERSION}-1-1.x86_64.rpm
+# Create CNV conda env
+COPY environment.yml .
 
-RUN R -e "install.packages('HMMcopy',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+RUN conda init bash && \
+    . ~/.bashrc && \
+    conda env create -f environment.yml
