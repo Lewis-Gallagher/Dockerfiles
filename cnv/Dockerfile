@@ -1,22 +1,18 @@
-FROM transgenmdx/base:v0.3
+FROM transgenmdx/base:v0.4
 
 WORKDIR /
 
-# Specify R version
-#ENV R_VERSION 3.3.2
-
 # Install Miniconda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh -O ~/miniconda.sh && \
-    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-    rm ~/miniconda.sh && \
-    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "PATH=~/anaconda3/bin:$PATH" >> ~/.bashrc
+RUN wget https://repo.anaconda.com/archive/Anaconda3-4.4.0-Linux-x86_64.sh -O ~/anaconda.sh && \
+    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
+    rm ~/anaconda.sh && \
+    echo "export PATH="/opt/conda/bin:$PATH"" >> ~/.bashrc && \
+    /bin/bash -c "source ~/.bashrc"
 
+ENV PATH /anaconda3/bin:$PATH
 
 # Create CNV conda env
 COPY environment.yml .
 
-RUN conda init bash && \
-    . ~/.bashrc && \
-    conda env create -f environment.yml
+RUN . ~/.bashrc && \
+    conda create --name test_env

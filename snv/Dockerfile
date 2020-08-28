@@ -1,4 +1,4 @@
-FROM transgenmdx/base:v0.3
+FROM transgenmdx/base:v0.4
 
 LABEL image="snv_docker"
 
@@ -14,7 +14,7 @@ RUN wget --quiet https://github.com/AstraZeneca-NGS/VarDictJava/releases/downloa
 RUN wget --quiet https://github.com/broadinstitute/gatk/releases/download/${GATK_VERSION}/gatk-${GATK_VERSION}.zip && \
     unzip gatk-${GATK_VERSION}.zip && \
     rm gatk-${GATK_VERSION}.zip && \
-    ln -s gatk-${GATK_VERSION}/gatk /usr/local/bin/gatk
+    ln -s /gatk-${GATK_VERSION}/gatk-package-${GATK_VERSION}-local.jar /usr/local/bin/gatk.jar
 
 ENV PATH "$PATH:/VarDict-1.5.8/bin/"
 ENV JAVA_HOME "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.262.b10-0.el7_8.x86_64/"
