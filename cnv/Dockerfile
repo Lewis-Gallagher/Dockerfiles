@@ -15,4 +15,4 @@ ENV PATH /anaconda3/bin:$PATH
 COPY environment.yml .
 
 RUN . ~/.bashrc && \
-    conda create --name test_env
+    conda env create -f environment.yml
