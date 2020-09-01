@@ -31,6 +31,7 @@ RUN yum -y update && \
         perl \
         perl-Data-Dumper \
         perl-ExtUtils-Embed \
+        perl-List-MoreUtils.x86_64 \
         r-base \
         tabix \
         unzip \
@@ -43,7 +44,8 @@ RUN wget https://github.com/samtools/samtools/releases/download/${SAMTOOLS_VERSI
 	cd samtools-${SAMTOOLS_VERSION} && \
 	./configure && \
 	make all all-htslib && \
-	make install install-htslib
+	make install install-htslib && \
+	rm samtools-${SAMTOOLS_VERSION}.tar.bz2
 
 
 
@@ -52,7 +54,8 @@ RUN wget https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSI
     cd bcftools-${BCFTOOLS_VERSION} && \
     ./configure --prefix=/usr/local && \
     make && \
-    make install
+    make install && \
+    rm bcftools-${BCFTOOLS_VERSION}.tar.bz2
 #    ln -s bcftools-${BCFTOOLS_VERSION}/htslib-${BCFTOOLS_VERSION}/bgzip /usr/local/bin && \
 #    ln -s bcftools-${BCFTOOLS_VERSION}/htslib-${BCFTOOLS_VERSION}/tabix /usr/local/bin
 
