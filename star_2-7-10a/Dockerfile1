@@ -1,0 +1,21 @@
+FROM ubuntu:18.04
+
+LABEL \
+    description="Custom container of STAR v2.7.10a" \
+    maintainer="lewis.gallagher@icr.ac.uk"
+
+ENV STAR_VERSION 2.7.10a
+
+RUN apt -y update && \
+    apt -y install \
+        g++ \
+        libz-dev \
+        make \
+        wget
+
+RUN wget https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz && \
+    tar -xzf 2.7.10a.tar.gz && \
+    cd STAR-2.7.10a/source/ && make STAR
+    
+ENV PATH=/STAR-2.7.10a/source/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
