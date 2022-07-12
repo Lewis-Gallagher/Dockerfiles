@@ -1,9 +1,9 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 LABEL Lewis Gallagher <lewis.gallagher@icr.ac.uk>
 
 ENV KRAKEN_VERSION 2.1.2
-ENV BRACKEN_VERSION 2.6.2
+ENV BRACKEN_VERSION 2.7
 
 WORKDIR /
 
@@ -15,7 +15,8 @@ RUN apt-get update && apt-get -y install \
     make \
     ncbi-blast+ \
     perl \
-    python3 \
+    python3-pip \
+    python3.7 \
     wget
 
 RUN wget https://github.com/DerrickWood/kraken2/archive/refs/tags/v${KRAKEN_VERSION}.tar.gz \
@@ -31,10 +32,15 @@ RUN ln -s /KrakenTools/*.py /usr/bin/
 RUN cd kraken2-${KRAKEN_VERSION} && ./install_kraken2.sh /usr/bin/.
 
 RUN sed -i "s#ftp://#https://#g" /usr/bin/rsync_from_ncbi.pl
+RUN sed -i "s#ftp://#https://#g" /usr/bin/download_taxonomy.sh
+RUN sed -i "s#ftp://#https://#g" /usr/bin/download_genomic_library.sh
 
 WORKDIR /
 
 RUN cd Bracken-${BRACKEN_VERSION}/ && bash install_bracken.sh /usr/bin/.
+
+RUN pip3 install --no-input --upgrade pip && \
+    pip3 install --no-input kraken-biom
 
 ENV PATH "$PATH:/kraken-${KRAKEN_VERSION}/scripts/"
 ENV PATH "$PATH:/Bracken-${BRACKEN_VERSION}"
